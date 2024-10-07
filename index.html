@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 R-Rated NFL Trash Talk Generator 🔥</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js" defer></script>
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+        .share-btn {
+            transition: transform 0.2s;
+        }
+        .share-btn:hover {
+            transform: scale(1.1);
+        }
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Button Animation */
+        .btn-animate {
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        .btn-animate:hover {
+            transform: scale(1.05);
+            background-color: #ff6347; /* Tomato color on hover */
+        }
+        /* Selected Team Highlight */
+        .selected {
+            border: 4px solid #ff6347;
+            transform: scale(1.1);
+        }
+        /* Gradient Button Colors */
+        .bg-gradient-blue-red {
+            background: linear-gradient(45deg, #1e3a8a, #dc2626);
+        }
+        .bg-gradient-green-purple {
+            background: linear-gradient(45deg, #10b981, #8b5cf6);
+        }
+        .bg-gradient-yellow-orange {
+            background: linear-gradient(45deg, #f59e0b, #f97316);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-black min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-5xl w-full bg-gray-800 p-10 rounded-xl shadow-2xl">
+        <!-- Header -->
+        <h1 class="text-5xl font-extrabold mb-10 text-center text-red-500 flex items-center justify-center">
+            <i class="fas fa-fire mr-4 animate-pulse"></i> R-Rated NFL Trash Talk Generator <i class="fas fa-fire ml-4 animate-pulse"></i>
+        </h1>
+        
+        <!-- Team Selection Section -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4 text-white">Select Your Team:</h2>
+            <div id="yourTeam" class="grid grid-cols-4 sm:grid-cols-6 gap-4 overflow-y-auto max-h-48 p-2 bg-gray-700 rounded-lg"></div>
+        </div>
+        
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold mb-4 text-white">Select Rival Team:</h2>
+            <div id="rivalTeam" class="grid grid-cols-4 sm:grid-cols-6 gap-4 overflow-y-auto max-h-48 p-2 bg-gray-700 rounded-lg"></div>
+        </div>
+        
+        <!-- Generate Button -->
+        <button id="generateBtn" class="w-full bg-gradient-blue-red text-white py-4 rounded-lg hover:bg-gradient-green-purple transition duration-300 mb-10 shadow-xl flex items-center justify-center btn-animate">
+            <i class="fas fa-bolt mr-3"></i> Generate Savage Trash Talk
+        </button>
+        
+        <!-- Trash Talk Result Section -->
+        <div id="trashTalkResult" class="bg-gray-700 p-6 rounded-lg text-xl font-medium text-white hidden relative">
+            <p id="trashTalkText" class="mb-6"></p>
+            <div class="mt-6 flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+                <button id="copyBtn" class="bg-gradient-yellow-orange hover:bg-gradient-green-purple text-white py-3 px-6 rounded flex items-center justify-center btn-animate">
+                    <i class="fas fa-copy mr-2"></i> Copy
+                </button>
+                <button id="twitterBtn" class="bg-gradient-blue-red hover:bg-gradient-yellow-orange text-white py-3 px-6 rounded flex items-center justify-center btn-animate">
+                    <i class="fab fa-twitter mr-2"></i> Share on Twitter
+                </button>
+                <button id="redditBtn" class="bg-gradient-green-purple hover:bg-gradient-blue-red text-white py-3 px-6 rounded flex items-center justify-center btn-animate">
+                    <i class="fab fa-reddit-alien mr-2"></i> Share on Reddit
+                </button>
+            </div>
+        </div>
+        
+        <!-- Share the App Section -->
+        <div class="mt-12 text-center">
+            <p class="text-gray-400 mb-4">Love this tool? Share the app and make your friends jealous!</p>
+            <button id="shareAppBtn" class="bg-gradient-green-purple hover:bg-gradient-yellow-orange text-white py-3 px-6 rounded flex items-center justify-center btn-animate">
+                <i class="fas fa-share-alt mr-2"></i> Share the App
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Team Data with Corrected Logos
+        const nflTeams = [
+            { name: "Cardinals", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/ari.png" },
+            { name: "Falcons", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/atl.png" },
+            { name: "Ravens", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/bal.png" },
+            { name: "Bills", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png" },
+            { name: "Panthers", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/car.png" },
+            { name: "Bears", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png" }, // Corrected Bears Logo URL
+            { name: "Bengals", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/cin.png" },
+            { name: "Browns", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png" },
+            { name: "Cowboys", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/dal.png" },
+            { name: "Broncos", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/den.png" },
+            { name: "Lions", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/det.png" },
+            { name: "Packers", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/gb.png" },
+            { name: "Texans", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/hou.png" },
+            { name: "Colts", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/ind.png" },
+            { name: "Jaguars", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/jax.png" },
+            { name: "Chiefs", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png" },
+            { name: "Raiders", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lv.png" },
+            { name: "Chargers", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lac.png" },
+            { name: "Rams", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lar.png" }, // Corrected Rams Logo URL
+            { name: "Dolphins", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/mia.png" },
+            { name: "Vikings", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/min.png" },
+            { name: "Patriots", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/ne.png" },
+            { name: "Saints", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/no.png" },
+            { name: "Giants", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/nyg.png" },
+            { name: "Jets", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/nyj.png" },
+            { name: "Eagles", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/phi.png" },
+            { name: "Steelers", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/pit.png" },
+            { name: "49ers", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png" },
+            { name: "Seahawks", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/sea.png" },
+            { name: "Buccaneers", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/tb.png" },
+            { name: "Titans", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/ten.png" },
+            { name: "Commanders", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/wsh.png" }
+        ];
+
+        // Current Star Players Mapping (Updated)
+        const teamPlayers = {
+            "Cardinals": "Kyler Murray",
+            "Falcons": "Kirk Cousins",
+            "Ravens": "Lamar Jackson",
+            "Bills": "Josh Allen",
+            "Panthers": "Andy Dalton",
+            "Bears": "Caleb Williams",
+            "Bengals": "Joe Burrow",
+            "Browns": "Deshaun Watson",
+            "Cowboys": "Dak Prescott",
+            "Broncos": "Bo Nix",
+            "Lions": "Jared Goff",
+            "Packers": "Jordan Love", 
+            "Texans": "C.J. Stroud",
+            "Colts": "Anthony Richardson",
+            "Jaguars": "Trevor Lawrence",
+            "Chiefs": "Patrick Mahomes",
+            "Raiders": "Davante Adams",
+            "Chargers": "Justin Herbert",
+            "Rams": "Matthew Stafford",
+            "Dolphins": "Tua Tagovailoa",
+            "Vikings": "Sam Darnold",
+            "Patriots": "Drake Maye",
+            "Saints": "Derek Carr", // Updated from Drew Brees to Derek Carr
+            "Giants": "Daniel Jones",
+            "Jets": "Aaron Rodgers", // Updated from Packers to Jets
+            "Eagles": "Jalen Hurts",
+            "Steelers": "Justin Fields",
+            "49ers": "Brock Purdy", // Updated from Trey Lance to Brock Purdy
+            "Seahawks": "Geno Smith",
+            "Buccaneers": "Baker Mayfield", // Updated from Tom Brady to Baker Mayfield
+            "Titans": "Will Levis",
+            "Commanders": "Jayden Daniels"
+        };
+
+        // Aggressive and R-Rated Trash Talk Templates (Updated)
+        const trashTalkTemplates = [
+            "Hey {rival}, even your own players bet against you. {currentPlayer} is about to teach you why loyalty can’t fix incompetence.",
+            "{rival} fans, is this really the hill you want to die on? Supporting a team that folds faster than a card table at a cheap casino.",
+            "Someone should tell {rival} that just because you wear a helmet doesn't mean you're safe from the beating {currentPlayer} is about to deliver.",
+            "Your quarterback throws like he's got a cookbook in his hands instead of a playbook. {currentPlayer} is ready to turn up the heat and cook your goose!",
+            "Watching {rival} try to score is like watching someone try to read a book upside down—painful and pointless. {currentPlayer} is about to close the book on your season.",
+            "It’s fitting {rival} wears those colors—they blend well with the shame they’ll wear after {currentPlayer} runs circles around them.",
+            "Your coach’s ‘strategy’ is more outdated than your last championship. {currentPlayer} is about to make your whole team a historical footnote.",
+            "Hey {rival}, your team’s performance is like a bad internet connection—always buffering at the crucial moment. Ready for {currentPlayer} to disconnect you?",
+            "{rival}, your defense is just a speed bump on {currentPlayer}'s road to victory. Hope you enjoy the view from the ground!",
+            "I’d call your plays elementary, but that would be an insult to kindergarteners everywhere. {currentPlayer} is about to school you, hard.",
+            "{rival}'s game plan is like a silent movie; all motion, no sound, no impact. {currentPlayer} is ready to bring the noise and the fury.",
+            "Your fans think wearing your jersey counts as community service because supporting {rival} is a charity case. Watch {currentPlayer} prove them right.",
+            "Every game you play is like a rerun of a bad sitcom—predictable, boring, and full of failed attempts to score. {currentPlayer} is changing the channel on your season.",
+            "Your team's so irrelevant, {rival}, that when {currentPlayer} wipes the floor with you, people will think he’s just cleaning up after a more important event.",
+            "Is {rival} playing or practicing? Hard to tell when {currentPlayer} makes every match look like a drill where you’re the dummy.",
+            "Your quarterback’s best passes are the excuses he makes post-game. {currentPlayer} is about to cut off his supply.",
+            "I've seen more backbone in jellyfish than in your defensive lineup. {currentPlayer} is about to sting every last bit of pride out of you.",
+            "Your fan base is perfect for {rival}—you’ve got experience in handling disappointment. {currentPlayer} is about to add another chapter to your saga of letdowns.",
+            "Calling {rival}'s performance 'professional' football is like calling a dumpster fire a barbecue. Time for {currentPlayer} to bring the marshmallows.",
+            "It’s not a game, it’s an autopsy. {currentPlayer} is about to dissect {rival}'s every flaw in front of a live audience.",
+            "You call it your defense, we call it our warm-up. {currentPlayer} is about to get a good stretch using your linemen.",
+            "Your playbook is so pathetic, {currentPlayer} read it as a bedtime story to his kids. Nothing but fairy tales and fantasy.",
+            "Even if {rival} brought a map, they couldn't find their way to the end zone. {currentPlayer} is ready to send you off course, permanently.",
+            "Your team's spirit animal is a lemming—blindly following each other to the cliff’s edge. {currentPlayer} is ready to give you a push.",
+            "Watching {rival} play is the best argument for revoking your franchise. {currentPlayer} is about to seal the deal with today’s performance."
+        ];
+
+        let selectedTeam = "";
+        let selectedRival = "";
+
+        // Function to Create Team Buttons with Logos
+        function createTeamButtons(containerId, onClickFunction) {
+            const container = document.getElementById(containerId);
+            nflTeams.forEach(team => {
+                const button = document.createElement('button');
+                button.className = 'flex flex-col items-center bg-gray-600 hover:bg-gray-500 py-2 px-3 rounded-lg transition duration-200 relative btn-animate';
+                button.onclick = () => onClickFunction(team.name);
+                
+                const img = document.createElement('img');
+                img.src = team.logo;
+                img.alt = team.name;
+                img.className = 'team-logo mb-2';
+                img.onerror = () => { img.src = 'https://via.placeholder.com/60?text=No+Image'; } // Fallback if logo fails to load
+                
+                const span = document.createElement('span');
+                span.textContent = team.name;
+                span.className = 'text-sm font-medium text-white';
+                
+                button.appendChild(img);
+                button.appendChild(span);
+                container.appendChild(button);
+            });
+        }
+
+        // Function to Handle Team Selection
+        function selectTeam(team) {
+            selectedTeam = team;
+            updateButtonStyles('yourTeam', team);
+        }
+
+        function selectRival(team) {
+            selectedRival = team;
+            updateButtonStyles('rivalTeam', team);
+        }
+
+        // Function to Update Button Styles Upon Selection
+        function updateButtonStyles(containerId, selectedTeamName) {
+            const container = document.getElementById(containerId);
+            container.childNodes.forEach(button => {
+                const teamName = button.querySelector('span').textContent;
+                if (teamName === selectedTeamName) {
+                    button.classList.add('bg-red-600', 'text-white', 'shadow-lg', 'selected');
+                    button.classList.remove('bg-gray-600', 'hover:bg-gray-500');
+                } else {
+                    button.classList.remove('bg-red-600', 'text-white', 'shadow-lg', 'selected');
+                    button.classList.add('bg-gray-600', 'hover:bg-gray-500');
+                }
+            });
+        }
+
+        // Function to Generate Trash Talk
+        function generateTrashTalk() {
+            if (!selectedTeam || !selectedRival) {
+                alert("🔥 Please select both your team and a rival team! 🔥");
+                return;
+            }
+
+            const currentPlayer = teamPlayers[selectedTeam] || "your star player";
+            const template = trashTalkTemplates[Math.floor(Math.random() * trashTalkTemplates.length)];
+            const trashTalk = template
+                .replace(/{team}/g, selectedTeam)
+                .replace(/{rival}/g, selectedRival)
+                .replace(/{currentPlayer}/g, currentPlayer);
+
+            document.getElementById('trashTalkText').textContent = trashTalk;
+            document.getElementById('trashTalkResult').classList.remove('hidden');
+        }
+
+        // Function to Copy Trash Talk to Clipboard
+        function copyToClipboard() {
+            const text = document.getElementById('trashTalkText').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("✅ Trash talk copied to clipboard!");
+            }).catch(err => {
+                alert("❌ Failed to copy text.");
+            });
+        }
+
+        // Function to Share on Twitter
+        function shareOnTwitter() {
+            const text = encodeURIComponent(document.getElementById('trashTalkText').textContent);
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+        }
+
+        // Function to Share on Reddit
+        function shareOnReddit() {
+            const text = encodeURIComponent(document.getElementById('trashTalkText').textContent);
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.reddit.com/submit?title=${text}&url=${url}`, '_blank');
+        }
+
+        // Function to Share the App
+        function shareApp() {
+            const appURL = encodeURIComponent(window.location.href);
+            const tweetText = encodeURIComponent(`Check out this 🔥 R-Rated NFL Trash Talk Generator! Generate savage trash talk and flex on your rivals. Try it now! ${appURL}`);
+            window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
+        }
+
+        // Initialize Team Buttons
+        createTeamButtons('yourTeam', selectTeam);
+        createTeamButtons('rivalTeam', selectRival);
+
+        // Event Listeners
+        document.getElementById('generateBtn').addEventListener('click', generateTrashTalk);
+        document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+        document.getElementById('twitterBtn').addEventListener('click', shareOnTwitter);
+        document.getElementById('redditBtn').addEventListener('click', shareOnReddit);
+        document.getElementById('shareAppBtn').addEventListener('click', shareApp);
+    </script>
+</body>
+</html>
