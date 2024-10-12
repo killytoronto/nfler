@@ -282,19 +282,19 @@
         function shareOnTwitter() {
             const text = encodeURIComponent(document.getElementById('trashTalkText').textContent);
             const url = encodeURIComponent(window.location.href);
-            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, 'https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday');
         }
         // Function to Share on Reddit
         function shareOnReddit() {
             const text = encodeURIComponent(document.getElementById('trashTalkText').textContent);
             const url = encodeURIComponent(window.location.href);
-            window.open(`https://www.reddit.com/submit?title=${text}&url=${url}`, '_blank');
+            window.open(`https://www.reddit.com/submit?title=${text}&url=${url}`, 'https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday');
         }
         // Function to Share the App
         function shareApp() {
             const appURL = encodeURIComponent(window.location.href);
-            const tweetText = encodeURIComponent(`Check out this 🔥 R-Rated NFL Trash Talk Generator! Generate savage trash talk and flex on your rivals. Try it now! ${appURL}`);
-            window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
+            const tweetText = encodeURIComponent(`Check out this 🔥 R-Rated NFL Trash Talk Generator! Generate savage trash talk and flex on your rivals. Try it now! https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday`);
+            window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, 'https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday');
         }
         // Initialize Team Buttons
         createTeamButtons('yourTeam', selectTeam);
