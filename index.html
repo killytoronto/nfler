@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔥 R-Rated NFL Trash Talk Generator 🔥</title>
     <!-- Tailwind CSS CDN -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js" defer></script>
     <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -106,7 +106,16 @@
                 <i class="fas fa-share-alt mr-2"></i> Share the App
             </button>
         </div>
+
+        <!-- Game Link Section -->
+        <div class="mt-12 text-center">
+            <p class="text-gray-400 mb-4">Try my game:</p>
+            <a href="https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday" target="_blank" class="bg-gradient-blue-red hover:bg-gradient-green-purple text-white py-3 px-6 rounded flex items-center justify-center btn-animate">
+                <i class="fas fa-gamepad mr-2"></i> Play NFL Trash Talk for Game Day
+            </a>
+        </div>
     </div>
+
     <script>
         // Team Data with Corrected Logos
         const nflTeams = [
@@ -143,6 +152,7 @@
             { name: "Titans", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/ten.png" },
             { name: "Commanders", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/wsh.png" }
         ];
+
         // Current Star Players Mapping (Updated)
         const teamPlayers = {
             "Cardinals": "Kyler Murray",
@@ -178,6 +188,7 @@
             "Titans": "Will Levis",
             "Commanders": "Jayden Daniels"
         };
+
         // Aggressive and R-Rated Trash Talk Templates (Updated)
         const trashTalkTemplates = [
             "Hey {rival}, even your own players bet against you. {currentPlayer} is about to teach you why loyalty can’t fix incompetence.",
@@ -206,8 +217,10 @@
             "Your team's spirit animal is a lemming—blindly following each other to the cliff’s edge. {currentPlayer} is ready to give you a push.",
             "Watching {rival} play is the best argument for revoking your franchise. {currentPlayer} is about to seal the deal with today’s performance."
         ];
+
         let selectedTeam = "";
         let selectedRival = "";
+
         // Function to Create Team Buttons with Logos
         function createTeamButtons(containerId, onClickFunction) {
             const container = document.getElementById(containerId);
@@ -231,19 +244,22 @@
                 container.appendChild(button);
             });
         }
+
         // Function to Handle Team Selection
         function selectTeam(team) {
             selectedTeam = team;
             updateButtonStyles('yourTeam', team);
         }
+
         function selectRival(team) {
             selectedRival = team;
             updateButtonStyles('rivalTeam', team);
         }
+
         // Function to Update Button Styles Upon Selection
         function updateButtonStyles(containerId, selectedTeamName) {
             const container = document.getElementById(containerId);
-            Array.from(container.children).forEach(button => {
+            container.childNodes.forEach(button => {
                 const teamName = button.querySelector('span').textContent;
                 if (teamName === selectedTeamName) {
                     button.classList.add('bg-red-600', 'text-white', 'shadow-lg', 'selected');
@@ -254,21 +270,25 @@
                 }
             });
         }
+
         // Function to Generate Trash Talk
         function generateTrashTalk() {
             if (!selectedTeam || !selectedRival) {
                 alert("🔥 Please select both your team and a rival team! 🔥");
                 return;
             }
+
             const currentPlayer = teamPlayers[selectedTeam] || "your star player";
             const template = trashTalkTemplates[Math.floor(Math.random() * trashTalkTemplates.length)];
             const trashTalk = template
                 .replace(/{team}/g, selectedTeam)
                 .replace(/{rival}/g, selectedRival)
                 .replace(/{currentPlayer}/g, currentPlayer);
+
             document.getElementById('trashTalkText').textContent = trashTalk;
             document.getElementById('trashTalkResult').classList.remove('hidden');
         }
+
         // Function to Copy Trash Talk to Clipboard
         function copyToClipboard() {
             const text = document.getElementById('trashTalkText').textContent;
@@ -278,27 +298,32 @@
                 alert("❌ Failed to copy text.");
             });
         }
+
         // Function to Share on Twitter
         function shareOnTwitter() {
             const text = encodeURIComponent(document.getElementById('trashTalkText').textContent);
             const url = encodeURIComponent(window.location.href);
             window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, 'https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday');
         }
+
         // Function to Share on Reddit
         function shareOnReddit() {
             const text = encodeURIComponent(document.getElementById('trashTalkText').textContent);
             const url = encodeURIComponent(window.location.href);
             window.open(`https://www.reddit.com/submit?title=${text}&url=${url}`, 'https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday');
         }
+
         // Function to Share the App
         function shareApp() {
             const appURL = encodeURIComponent(window.location.href);
-            const tweetText = encodeURIComponent(`Check out this 🔥 R-Rated NFL Trash Talk Generator! Generate savage trash talk and flex on your rivals. Try it now! https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday`);
+            const tweetText = encodeURIComponent(`Check out this 🔥 R-Rated NFL Trash Talk Generator! Generate savage trash talk and flex on your rivals. Try it now! ${appURL}`);
             window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, 'https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday');
         }
+
         // Initialize Team Buttons
         createTeamButtons('yourTeam', selectTeam);
         createTeamButtons('rivalTeam', selectRival);
+
         // Event Listeners
         document.getElementById('generateBtn').addEventListener('click', generateTrashTalk);
         document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
