@@ -294,14 +294,14 @@
         // Function to Share on Twitter
         function shareOnTwitter() {
             const text = encodeURIComponent(document.getElementById('trashTalkText').textContent);
-            const url = encodeURIComponent(window.location.href);
+            const url = encodeURIComponent("https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday");
             window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
         }
 
         // Function to Share on Reddit
         function shareOnReddit() {
             const text = encodeURIComponent(document.getElementById('trashTalkText').textContent);
-            const url = encodeURIComponent(window.location.href);
+            const url = encodeURIComponent("https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday");
             window.open(`https://www.reddit.com/submit?title=${text}&url=${url}`, '_blank');
         }
 
