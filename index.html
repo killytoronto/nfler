@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔥 R-Rated NFL Trash Talk Generator 🔥</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js" defer></script>
+    <!-- Tailwind CSS CDN (Corrected) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -116,7 +116,7 @@
             { name: "Ravens", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/bal.png" },
             { name: "Bills", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png" },
             { name: "Panthers", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/car.png" },
-            { name: "Bears", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png" }, // Corrected Bears Logo URL
+            { name: "Bears", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/chi.png" },
             { name: "Bengals", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/cin.png" },
             { name: "Browns", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png" },
             { name: "Cowboys", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/dal.png" },
@@ -129,7 +129,7 @@
             { name: "Chiefs", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png" },
             { name: "Raiders", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lv.png" },
             { name: "Chargers", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lac.png" },
-            { name: "Rams", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lar.png" }, // Corrected Rams Logo URL
+            { name: "Rams", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/lar.png" },
             { name: "Dolphins", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/mia.png" },
             { name: "Vikings", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/min.png" },
             { name: "Patriots", logo: "https://a.espncdn.com/i/teamlogos/nfl/500/ne.png" },
@@ -169,14 +169,14 @@
             "Dolphins": "Tua Tagovailoa",
             "Vikings": "Sam Darnold",
             "Patriots": "Drake Maye",
-            "Saints": "Derek Carr", // Updated from Drew Brees to Derek Carr
+            "Saints": "Derek Carr",
             "Giants": "Daniel Jones",
-            "Jets": "Aaron Rodgers", // Updated from Packers to Jets
+            "Jets": "Aaron Rodgers",
             "Eagles": "Jalen Hurts",
             "Steelers": "Justin Fields",
-            "49ers": "Brock Purdy", // Updated from Trey Lance to Brock Purdy
+            "49ers": "Brock Purdy",
             "Seahawks": "Geno Smith",
-            "Buccaneers": "Baker Mayfield", // Updated from Tom Brady to Baker Mayfield
+            "Buccaneers": "Baker Mayfield",
             "Titans": "Will Levis",
             "Commanders": "Jayden Daniels"
         };
@@ -248,10 +248,11 @@
             updateButtonStyles('rivalTeam', team);
         }
 
-        // Function to Update Button Styles Upon Selection
+        // Function to Update Button Styles Upon Selection (Corrected)
         function updateButtonStyles(containerId, selectedTeamName) {
             const container = document.getElementById(containerId);
-            container.childNodes.forEach(button => {
+            // Use 'children' instead of 'childNodes' to avoid text nodes
+            Array.from(container.children).forEach(button => {
                 const teamName = button.querySelector('span').textContent;
                 if (teamName === selectedTeamName) {
                     button.classList.add('bg-red-600', 'text-white', 'shadow-lg', 'selected');
@@ -302,14 +303,14 @@
         function shareOnReddit() {
             const text = encodeURIComponent(document.getElementById('trashTalkText').textContent);
             const url = encodeURIComponent(window.location.href);
-            window.open(`https://www.reddit.com/submit?title=${text}&url=${url}`, '_blank');
+            window.open(`https://www.reddit.com/submit?title=${text}&url=${url}`, 'https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday');
         }
 
         // Function to Share the App
         function shareApp() {
             const appURL = encodeURIComponent(window.location.href);
-            const tweetText = encodeURIComponent(`Check out this 🔥 R-Rated NFL Trash Talk Generator! Generate savage trash talk and flex on your rivals. Try it now! ${appURL}`);
-            window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
+            const tweetText = encodeURIComponent(`Check out this 🔥 R-Rated NFL Trash Talk Generator! Generate savage trash talk and flex on your rivals. Try it now! ${https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday}`);
+            window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, 'https://huntington-beacher.itch.io/nfl-trashtalk-for-gameday');
         }
 
         // Initialize Team Buttons
